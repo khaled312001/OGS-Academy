@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>بروبوزال — منصة New Academy التدريبية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0D2F4F;
+  --primary-2:#1B4A7A;
+  --primary-3:#244E76;
+  --accent:#C9A35C;
+  --accent-2:#E8D6A5;
+  --light:#F5F6F8;
+  --panel:#FBF7EE;
+  --dark:#1F2937;
+  --muted:#6B7280;
+  --border:#E5E7EB;
+  --soft:#EFEFEF;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html,body{
+  font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;
+  color:var(--dark);
+  line-height:1.7;
+  background:#fff;
+  font-feature-settings:"liga","calt";
+}
+@page{ size:A4; margin:0; }
+
+.page{
+  width:210mm;
+  height:297mm;
+  padding:18mm 18mm 16mm;
+  page-break-after:always;
+  page-break-inside:avoid;
+  position:relative;
+  overflow:hidden;
+}
+.page:last-child{page-break-after:auto;}
+
+/* --- Header / Footer --- */
+.header-bar{
+  position:absolute;
+  top:0;left:0;right:0;height:6mm;
+  background:linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 50%,var(--accent) 100%);
+}
+.page-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:14mm;
+  font-size:9pt;
+}
+.page-head .left{color:var(--muted);font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.5px;}
+.page-head .right{color:var(--primary);font-weight:700;}
+.page-foot{
+  position:absolute;
+  bottom:8mm;left:18mm;right:18mm;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:8.5pt;color:var(--muted);
+  border-top:1px solid var(--border);
+  padding-top:5px;
+}
+.page-foot .pn{color:var(--primary);font-weight:700;}
+.page-foot .brand{font-family:'Inter',sans-serif;letter-spacing:.4px;}
+
+/* --- Section heading --- */
+.kicker{
+  display:inline-block;
+  font-size:8.5pt;font-weight:700;
+  color:var(--accent);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+h1.section-title{
+  font-size:24pt;
+  color:var(--primary);
+  font-weight:800;
+  margin-bottom:6mm;
+  display:flex;align-items:center;gap:10px;
+}
+h1.section-title .num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;
+  background:var(--accent);
+  color:#fff;border-radius:8px;
+  font-size:14pt;font-weight:800;
+  font-family:'Inter',sans-serif;
+}
+h1.section-title::after{
+  content:"";flex:1;height:2px;background:var(--accent);opacity:.35;border-radius:2px;
+  margin-right:6px;
+}
+h2{
+  font-size:14pt;color:var(--primary-2);font-weight:700;
+  margin:8mm 0 4mm;
+  display:flex;align-items:center;gap:8px;
+}
+h2::before{
+  content:"";display:inline-block;width:4px;height:18px;
+  background:var(--accent);border-radius:2px;
+}
+h3{font-size:12pt;color:var(--primary);font-weight:700;margin:6mm 0 3mm;}
+p{font-size:10.5pt;color:var(--dark);margin-bottom:3mm;line-height:1.85;text-align:justify;}
+strong{color:var(--primary);font-weight:700;}
+
+/* --- Lists --- */
+ul.gold{list-style:none;padding:0;margin:3mm 0;}
+ul.gold li{
+  position:relative;
+  padding:3px 18px 3px 0;
+  font-size:10.5pt;
+  line-height:1.85;
+}
+ul.gold li::before{
+  content:"";position:absolute;
+  right:4px;top:13px;
+  width:7px;height:7px;
+  background:var(--accent);
+  border-radius:50%;
+}
+
+/* --- Panels --- */
+.panel{
+  background:var(--panel);
+  border-radius:8px;
+  border:1px solid #EAD9B0;
+  padding:12px 16px;
+  margin:5mm 0;
+  position:relative;
+  font-size:10pt;
+  line-height:1.85;
+}
+.panel::before{
+  content:"";position:absolute;top:8px;bottom:8px;right:0;
+  width:3px;background:var(--accent);border-radius:2px;
+}
+.panel.dark{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%);
+  border:none;color:#fff;
+}
+.panel.dark::before{background:var(--accent);}
+.panel.dark p{color:#E5EAF2;}
+
+/* --- Two-col cards --- */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:5mm;}
+.phase-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 1px 2px rgba(13,47,79,0.04);
+}
+.phase-card .top-band{
+  background:linear-gradient(90deg,var(--primary) 0%,var(--primary-2) 100%);
+  color:#fff;padding:8px 14px;font-size:9.5pt;font-weight:700;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.phase-card .top-band .roman{font-family:'Inter',sans-serif;color:var(--accent-2);}
+.phase-card .body{padding:12px 14px;}
+.phase-card h4{font-size:13pt;color:var(--primary);font-weight:800;margin-bottom:4px;}
+.phase-card p{font-size:10pt;color:var(--dark);margin:0;}
+
+/* --- Stats --- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin:5mm 0;}
+.stat{
+  background:var(--light);border:1px solid var(--border);border-radius:8px;
+  text-align:center;padding:14px 8px;
+}
+.stat .big{font-size:22pt;font-weight:800;color:var(--primary);font-family:'Inter',sans-serif;line-height:1;}
+.stat .lbl{font-size:9.5pt;color:var(--muted);margin-top:6px;}
+
+/* --- Role blocks --- */
+.role{
+  border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+  margin-bottom:5mm;
+  background:#fff;
+}
+.role .head{
+  background:linear-gradient(90deg,var(--primary-2) 0%,var(--primary) 100%);
+  color:#fff;padding:9px 14px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-right:4px solid var(--accent);
+}
+.role .head .ar{font-size:12pt;font-weight:800;}
+.role .head .en{font-family:'Inter',sans-serif;font-size:9pt;color:var(--accent-2);letter-spacing:1px;}
+.role .body{padding:10px 14px;}
+.role ul.gold li{font-size:10pt;}
+
+/* --- Page card (Phase 1 page rows) --- */
+.pcard{
+  border:1px solid var(--border);border-radius:10px;
+  margin-bottom:5mm;overflow:hidden;
+}
+.pcard .head{
+  background:var(--primary);color:#fff;
+  padding:9px 14px;font-weight:700;font-size:11.5pt;
+  display:flex;justify-content:space-between;align-items:center;
+  border-right:4px solid var(--accent);
+}
+.pcard .head .en{font-family:'Inter',sans-serif;font-size:9pt;color:var(--accent-2);letter-spacing:.5px;}
+.pcard .body{padding:8px 14px 12px;}
+
+/* --- Table --- */
+.tbl{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt;}
+.tbl th{
+  background:var(--primary);color:#fff;font-weight:700;
+  padding:9px 12px;text-align:right;
+  border-bottom:2px solid var(--accent);
+}
+.tbl th:last-child{border-right:1px solid rgba(255,255,255,.12);}
+.tbl td{
+  padding:9px 12px;border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.tbl tbody tr:nth-child(odd){background:var(--light);}
+.tbl td.label{font-weight:700;color:var(--primary);width:32%;}
+.tbl td.desc{color:var(--dark);}
+
+/* --- Numbered steps --- */
+.steps{counter-reset:step;list-style:none;padding:0;margin:4mm 0;}
+.steps li{
+  counter-increment:step;
+  position:relative;padding:6px 50px 6px 0;
+  font-size:11pt;line-height:1.7;
+  margin-bottom:2px;
+}
+.steps li::before{
+  content:counter(step);
+  position:absolute;right:0;top:5px;
+  width:32px;height:32px;
+  background:var(--primary);color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-family:'Inter',sans-serif;font-size:11pt;
+}
+
+/* ==================== COVER ==================== */
+.cover{
+  padding:0;display:grid;grid-template-columns:64mm 1fr;
+}
+.cover .strip{
+  background:linear-gradient(180deg,var(--primary-2) 0%,var(--primary) 100%);
+  position:relative;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:30mm 8mm;
+}
+.cover .strip::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:4mm;
+  background:var(--accent);
+}
+.cover .strip .vbrand{
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  color:var(--accent);
+  font-family:'Inter',sans-serif;
+  font-weight:700;font-size:11pt;letter-spacing:6px;
+  align-self:flex-start;
+}
+.cover .strip .vmark{
+  width:24mm;height:24mm;border:1.5px solid var(--accent);
+  border-radius:4mm;rotate:45deg;align-self:center;margin-top:30mm;
+  position:relative;
+}
+.cover .strip .vmark::before{
+  content:"";position:absolute;inset:6px;
+  border:1px solid var(--accent);border-radius:2mm;opacity:.5;
+}
+.cover .main{
+  padding:30mm 18mm 18mm;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.cover .kick{font-size:10pt;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.cover h1.title{
+  font-size:42pt;line-height:1.15;color:var(--primary);font-weight:800;
+  margin:8mm 0 8mm;
+}
+.cover h1.title em{
+  font-style:normal;color:var(--accent);
+}
+.cover .sub{
+  font-size:14pt;color:var(--dark);font-weight:300;line-height:1.6;
+  max-width:120mm;
+}
+.cover .divider{
+  height:2px;background:var(--accent);margin:14mm 0 10mm;width:120mm;
+}
+.cover .meta{font-size:11pt;color:var(--dark);}
+.cover .meta .row{margin-bottom:7mm;}
+.cover .meta .lbl{font-size:9pt;color:var(--muted);font-weight:500;margin-bottom:2px;}
+.cover .meta .val{font-size:13pt;color:var(--primary);font-weight:700;}
+.cover .footer{
+  position:absolute;bottom:14mm;right:18mm;left:18mm;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  color:var(--muted);font-size:9pt;
+  border-top:1px solid var(--border);padding-top:6px;
+}
+.cover .footer .right{font-weight:700;color:var(--primary);}
+.cover .footer .left{font-family:'Inter',sans-serif;letter-spacing:.4px;}
+
+/* ==================== CONTACT (last page) ==================== */
+.contact-card{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%);
+  color:#fff;border-radius:14px;padding:18px 24px;
+  margin-top:6mm;
+  border-right:5px solid var(--accent);
+}
+.contact-card h3{color:#fff;margin-bottom:10px;font-size:18pt;}
+.contact-card .role{font-size:10.5pt;color:var(--accent-2);margin-bottom:14px;background:transparent;border:none;}
+.contact-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;
+}
+.contact-grid .item{
+  display:flex;align-items:center;gap:10px;
+  font-size:10.5pt;
+}
+.contact-grid .ico{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(201,163,92,0.2);
+  border:1px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);font-weight:700;font-size:11pt;
+  font-family:'Inter',sans-serif;
+  flex-shrink:0;
+}
+.contact-grid .item span{color:#fff;direction:ltr;text-align:left;font-family:'Inter',sans-serif;}
+.contact-grid .item .ar{font-family:'Cairo',sans-serif;direction:rtl;text-align:right;}
+
+.closing{
+  margin-top:8mm;text-align:center;
+  font-size:11pt;color:var(--muted);font-style:italic;
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1 — COVER ==================== -->
+<section class="page cover">
+  <div class="strip">
+    <div class="vbrand">PROPOSAL · 2026</div>
+    <div class="vmark"></div>
+    <div></div>
+  </div>
+  <div class="main">
+    <div class="header-bar"></div>
+    <div class="kick">بروبوزال مشروع</div>
+    <h1 class="title">منصة <em>New&nbsp;Academy</em><br>التدريبية</h1>
+    <div class="sub">تطوير موقع تعريفي احترافي ومنصة تعلّم إلكتروني متكاملة موجَّهة للشركات والمؤسسات&nbsp;<strong>(B2B)</strong>.</div>
+    <div class="divider"></div>
+    <div class="meta">
+      <div class="row">
+        <div class="lbl">مقدَّم إلى</div>
+        <div class="val">New Academy</div>
+      </div>
+      <div class="row">
+        <div class="lbl">تاريخ التقديم</div>
+        <div class="val">١ مايو ٢٠٢٦</div>
+      </div>
+      <div class="row">
+        <div class="lbl">المرجع</div>
+        <div class="val">اجتماع تحضيري مع العميل بتاريخ ١ مايو ٢٠٢٦</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="left">CONFIDENTIAL · CLIENT PROPOSAL</div>
+      <div class="right">v1.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 2 — EXECUTIVE SUMMARY ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">NEW ACADEMY · PROPOSAL</div>
+    <div class="right">نظرة عامة على المشروع</div>
+  </div>
+
+  <span class="kicker">Executive Summary</span>
+  <h1 class="section-title"><span class="num">01</span>ملخّص المشروع</h1>
+
+  <p>تسعى أكاديمية <strong>New Academy</strong> إلى بناء حضور رقمي احترافي يعكس طبيعة عملها التدريبي الموجَّه للشركات والمؤسسات، مع تجهيز البنية التحتية لمنصة تعلّم إلكتروني متكاملة (LMS) تُطلَق على مرحلة لاحقة. التوجّه الاستراتيجي للمشروع <strong>B2B</strong> بشكل صريح: المنصة تخاطب مديري التدريب وإدارات شؤون الموظفين في المؤسسات، لا الأفراد.</p>
+
+  <div class="panel dark">
+    <p><strong style="color:var(--accent-2)">ركيزة المشروع: </strong>المنصة أداة في يد مدير التدريب داخل الشركة لتقييم محتوى الدورات ومتابعة موظفيه — ليست متجرًا تعليميًا للأفراد.</p>
+  </div>
+
+  <h2>منهجية التنفيذ على مرحلتين</h2>
+  <div class="two-col">
+    <div class="phase-card">
+      <div class="top-band">المرحلة الأولى <span class="roman">PHASE&nbsp;I</span></div>
+      <div class="body">
+        <h4>الموقع التعريفي</h4>
+        <p>ثلاث صفحات احترافية تعكس هوية الأكاديمية وتُمكِّن العملاء المؤسسيين من الاستفسار وطلب الدورات.</p>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="top-band">المرحلة الثانية <span class="roman">PHASE&nbsp;II</span></div>
+      <div class="body">
+        <h4>منصّة LMS</h4>
+        <p>نظام إدارة تعلّم متكامل بأدوار ثلاثة (متدرّب، محاضر، أدمن) مع لوحة تحكّم خاصة لمديري التدريب في الشركات.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>نقاط مفتاحية اتُّفق عليها</h2>
+  <ul class="gold">
+    <li>التصميم يعكس طابعًا مؤسسيًا (Corporate) لا استهلاكيًا — لغة بصرية رسمية تخاطب صانعي القرار.</li>
+    <li>لا حجز/شراء أونلاين في المرحلة الأولى — كل الاستفسارات تمر عبر فورم تواصل ثم يتولّى الأدمن المتابعة.</li>
+    <li>الأدمن هو من ينشئ حسابات المتدربين ويرسل بيانات الدخول لهم (مع إتاحة التسجيل الذاتي اختياريًا).</li>
+    <li>عدد المستخدمين على المنصة مفتوح وغير محدود.</li>
+    <li>المحتوى التدريبي (الفيديوهات والاختبارات) خارج نطاق المرحلة الأولى — تُجهَّز البنية التحتية فقط ويُؤجَّل التشغيل.</li>
+  </ul>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">02</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 3 — PHASE 1 ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">PHASE I · INFORMATIONAL WEBSITE</div>
+    <div class="right">المرحلة الأولى</div>
+  </div>
+
+  <span class="kicker">Phase I · Website</span>
+  <h1 class="section-title"><span class="num">02</span>الموقع التعريفي</h1>
+
+  <p>ثلاث صفحات أساسية تُكوِّن الواجهة العامة للأكاديمية وتمثّل نقطة الاحتكاك الأولى مع العملاء المؤسسيين، مع تركيز التصميم على الوضوح والسرعة وملاءمة الجمهور المؤسسي.</p>
+
+  <div class="pcard">
+    <div class="head">الصفحة الرئيسية <span class="en">LANDING&nbsp;PAGE</span></div>
+    <div class="body">
+      <ul class="gold">
+        <li>قسم بصري افتتاحي (Hero) جذّاب يعكس رسالة الأكاديمية وقيمتها للمؤسسات.</li>
+        <li>عرض مختار من البرامج التدريبية لجذب الانتباه وتحفيز الاستكشاف.</li>
+        <li>قسم "نبذة عننا" مختصر يبني الثقة المؤسسية ويوضّح الخبرة.</li>
+        <li>Footer شامل يحتوي على العنوان وبيانات الاتصال وروابط الصفحات الأساسية.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="head">صفحة البرامج / دوراتنا <span class="en">PROGRAMS</span></div>
+    <div class="body">
+      <ul class="gold">
+        <li>ليستة تفصيلية بكل البرامج التدريبية المتاحة مع فلترة بسيطة.</li>
+        <li>صفحة منفصلة لكل برنامج تشمل: نبذة، محاور، مدة، وفيديو تعريفي اختياري.</li>
+        <li>فورم استفسار/طلب مدمج في كل صفحة برنامج لتحويل الزيارة إلى Lead مؤهَّل.</li>
+        <li>بدلًا من الحجز الأونلاين: الفورم يصل للأدمن فيتواصل مباشرةً مع العميل.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="head">من نحن / تواصل معنا <span class="en">CONTACT</span></div>
+    <div class="body">
+      <ul class="gold">
+        <li>بيانات الأكاديمية الكاملة: العنوان، الأرقام، البريد الإلكتروني.</li>
+        <li>خريطة الموقع الجغرافي (اختياري) لتسهيل الوصول الميداني.</li>
+        <li>فورم استفسار عام للزوّار وتسجيل اهتمام عام.</li>
+        <li>روابط حسابات التواصل الاجتماعي إن وُجدت.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">03</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 4 — PHASE 2: ROLES ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">PHASE II · LMS PLATFORM</div>
+    <div class="right">المرحلة الثانية</div>
+  </div>
+
+  <span class="kicker">Phase II · LMS</span>
+  <h1 class="section-title"><span class="num">03</span>منصّة التعلّم — الأدوار</h1>
+
+  <p>منصة LMS ببنية واضحة وثلاثة محاور أساسية، مع نظام صلاحيات (Role-Based Access Control) دقيق يضمن أن كل مستخدم يرى ما يخصّه فقط ضمن حدود دوره.</p>
+
+  <div class="role">
+    <div class="head">
+      <span class="ar">١. المتدرّب</span>
+      <span class="en">TRAINEE</span>
+    </div>
+    <div class="body">
+      <ul class="gold">
+        <li>تسجيل الدخول ببيانات يُنشئها الأدمن (مع إتاحة التسجيل الذاتي اختياريًا).</li>
+        <li>عرض البرامج المسجَّل بها وحضور الجلسات والمحتوى التدريبي.</li>
+        <li>أداء الاختبارات النهائية (Final Tests) عند توافرها.</li>
+        <li>متابعة سجل الحضور والانصراف الخاص به.</li>
+        <li>تقييم المحاضر والبرنامج وإضافة ملاحظات أو شكاوى.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="role">
+    <div class="head">
+      <span class="ar">٢. المحاضر</span>
+      <span class="en">INSTRUCTOR</span>
+    </div>
+    <div class="body">
+      <ul class="gold">
+        <li>رفع المادة العلمية للبرامج التي يُدرّسها وإدارة محتواها.</li>
+        <li>إنشاء وضبط الاختبار النهائي وتقييم المتدربين فيه.</li>
+        <li>متابعة حضور وانصراف المتدربين في برامجه.</li>
+        <li>تقييم يومي للمتدرب وفق معايير محدَّدة (التفاعل، الانضباط، طريقة التواصل، إلخ).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="role">
+    <div class="head">
+      <span class="ar">٣. الأدمن</span>
+      <span class="en">ADMIN</span>
+    </div>
+    <div class="body">
+      <ul class="gold">
+        <li>صلاحيات كاملة على المنصة وإدارة كل المستخدمين والأدوار.</li>
+        <li>إنشاء حسابات المتدربين وإرسال بيانات الدخول لهم.</li>
+        <li>إدارة البرامج التدريبية والمحاضرين والجداول الزمنية.</li>
+        <li>الاطلاع على تقييم المحاضر للمتدرب وتقييم المتدرب للمحاضر والبرنامج.</li>
+        <li>إصدار الشهادات بناءً على نسبة الإنجاز ومراقبة الجودة.</li>
+        <li>دمج سجلات المتدرّب الواحد عبر برامجه المتعدّدة في ملف موحَّد.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">04</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 5 — SPECIAL FEATURES ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">SIGNATURE FEATURES</div>
+    <div class="right">المميّزات الخاصة</div>
+  </div>
+
+  <span class="kicker">Signature Features</span>
+  <h1 class="section-title"><span class="num">04</span>ميزات تميّز المشروع</h1>
+
+  <h2>لوحة مدير التدريب في الشركة (B2B Manager Dashboard)</h2>
+  <p>ميزة محورية تعكس التوجّه المؤسسي للأكاديمية: لكل شركة عميلة لوحة خاصة يدخلها مديرها المسؤول عن التدريب ليتابع موظفيه فقط (لا كل المتدربين على المنصة)، مع صلاحيات مخصَّصة تحفظ خصوصية البيانات بين الشركات.</p>
+  <ul class="gold">
+    <li>متابعة أداء الموظفين التابعين له داخل الكورسات المسجَّلين بها.</li>
+    <li>رؤية حضور وانصراف فريقه بشكل تفصيلي ومجمَّع.</li>
+    <li>فلترة بمجموعة موظفين معيّنة أو كامل فريقه.</li>
+    <li>تقارير قابلة للتصدير (PDF / Excel) لرفعها إلى الإدارة العليا.</li>
+  </ul>
+
+  <h2>نظام الشهادات</h2>
+  <ul class="gold">
+    <li>إصدار آلي عند تحقيق نسبة إنجاز محدَّدة يضبطها الأدمن.</li>
+    <li>حجب الشهادة تلقائيًا عند انخفاض نسبة الإنجاز عن الحد المطلوب.</li>
+    <li>قالب شهادة موحَّد بهوية الأكاديمية يعكس الشكل المعتمد سابقًا.</li>
+    <li>تحميل بصيغة PDF بجودة طباعة عالية ومعرّفات تحقّق فريدة.</li>
+  </ul>
+
+  <h2>نظام التقييم المتبادل</h2>
+  <ul class="gold">
+    <li>تقييم يومي من المحاضر للمتدرّب على معايير سلوكية وأكاديمية.</li>
+    <li>تقييم نهائي من المتدرّب للمحاضر وللبرنامج بشكل عام.</li>
+    <li>لوحة تجميعية للأدمن تعرض الاتجاهات والمؤشرات الرئيسية.</li>
+  </ul>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">05</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 6 — DESIGN ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">DESIGN APPROACH</div>
+    <div class="right">النهج التصميمي</div>
+  </div>
+
+  <span class="kicker">Design &amp; Brand</span>
+  <h1 class="section-title"><span class="num">05</span>الهوية والتصميم</h1>
+
+  <p>التصميم يبني على هوية بصرية مؤسسية تعكس مخاطبة شركات ومؤسسات، لا أفراد. الأولوية لـ: <strong>الوضوح، الاحترافية، التسلسل البصري المنطقي، وتجربة استخدام انسيابية</strong> على مختلف الأجهزة.</p>
+
+  <h2>ركائز اللغة البصرية</h2>
+  <ul class="gold">
+    <li>لوحة ألوان رسمية متّسقة مع الهوية البصرية المعتمدة من الأكاديمية.</li>
+    <li>تايبوغرافي عربي/إنجليزي احترافي وقابل للقراءة على جميع المقاسات.</li>
+    <li>Whitespace مدروس يعطي الانطباع المؤسسي الراقي ويبرز المحتوى.</li>
+    <li>أيقونات وعناصر بصرية متناسقة في نظام موحَّد (Outline / Filled).</li>
+  </ul>
+
+  <h2>متطلّبات يقدّمها العميل</h2>
+  <p>اتُّفق في الاجتماع التحضيري على أن العميل يقدّم — وكلها مهيَّأة لديه — العناصر التالية لاستكمال التصميم:</p>
+  <ul class="gold">
+    <li><strong>اللوجو</strong> الرسمي للأكاديمية بصيغ مفتوحة المصدر.</li>
+    <li><strong>الدومين</strong> النهائي للموقع.</li>
+    <li><strong>دليل الهوية البصرية</strong> الكامل (الألوان، الخطوط، استخدامات الشعار).</li>
+  </ul>
+
+  <div class="panel">
+    <p><strong>تنبيه:</strong> التصميم المبدئي (Initial Mockup) يُسلَّم للعميل خلال يوم عمل واحد من تسلّم أصول الهوية البصرية، ليبدأ بعده التطوير الفعلي للمرحلة الأولى.</p>
+  </div>
+
+  <h2>الاستجابة والتوافقية</h2>
+  <ul class="gold">
+    <li>تصميم Responsive كامل (Desktop, Tablet, Mobile) بنقاط كسر مدروسة.</li>
+    <li>توافق مع أحدث إصدارات المتصفّحات الرئيسية.</li>
+    <li>اعتبار معايير إمكانية الوصول (Accessibility) وفق WCAG حيث أمكن.</li>
+  </ul>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">06</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 7 — TIMELINE ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">PROJECT TIMELINE</div>
+    <div class="right">الجدول الزمني</div>
+  </div>
+
+  <span class="kicker">Project Plan</span>
+  <h1 class="section-title"><span class="num">06</span>خطة التسليم والمراحل</h1>
+
+  <p>تتم إدارة المشروع عبر مراحل واضحة (Milestones)، مع تسليم بيئة اختبار في نهاية كل مرحلة لمراجعة العميل قبل الانتقال إلى المرحلة التالية.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>المرحلة</th>
+        <th>الوصف</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">١. التحضير والتصميم</td><td class="desc">تجميع أصول الهوية، تصميم Mockup مبدئي، مراجعة وموافقة.</td></tr>
+      <tr><td class="label">٢. بناء الموقع التعريفي</td><td class="desc">تطوير الصفحات الثلاث، فورمات الاستفسار، تكامل البريد.</td></tr>
+      <tr><td class="label">٣. اختبار وإطلاق المرحلة الأولى</td><td class="desc">اختبار شامل، تهيئة SEO أساسية، النشر على الدومين.</td></tr>
+      <tr><td class="label">٤. بناء بنية الـ LMS</td><td class="desc">نظام الأدوار والصلاحيات، إدارة البرامج والمستخدمين.</td></tr>
+      <tr><td class="label">٥. تطوير الأدوار الثلاثة</td><td class="desc">واجهات المتدرّب، المحاضر، والأدمن وكافة وظائفها.</td></tr>
+      <tr><td class="label">٦. لوحة مدير التدريب B2B</td><td class="desc">Dashboard خاص للشركات العميلة وتقاريرها التفصيلية.</td></tr>
+      <tr><td class="label">٧. الشهادات والتقييم</td><td class="desc">إصدار الشهادات وقواعد التقييم المتبادل وقوالبها.</td></tr>
+      <tr><td class="label">٨. الإطلاق النهائي</td><td class="desc">QA كامل، Migrations، إطلاق رسمي وتدريب الأدمن.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="panel">
+    <p>المدة الإجمالية التقديرية للمشروع تتحدَّد بدقّة بعد تسلّم أصول الهوية البصرية ومراجعة Mockup المبدئي. تُحدَّد التواريخ النهائية لكل مرحلة في عقد العمل الموقَّع بين الطرفين.</p>
+  </div>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">07</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 8 — INVESTMENT ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">INVESTMENT</div>
+    <div class="right">هيكل الاستثمار</div>
+  </div>
+
+  <span class="kicker">Investment</span>
+  <h1 class="section-title"><span class="num">07</span>هيكل الاستثمار</h1>
+
+  <p>تُحدَّد الكلفة الإجمالية بعد تثبيت النطاق النهائي ومراجعة المتطلبات التقنية الدقيقة لكل مرحلة. التالي هو هيكل التسعير المقترح، وتُقدَّم الأرقام التفصيلية في عرض السعر النهائي المنفصل.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>البند</th>
+        <th>النطاق</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">المرحلة الأولى</td><td class="desc">تطوير الموقع التعريفي بثلاث صفحات + فورمات تواصل + استضافة السنة الأولى.</td></tr>
+      <tr><td class="label">المرحلة الثانية</td><td class="desc">منصة LMS كاملة بالأدوار الثلاثة + لوحة مدير التدريب + الشهادات والتقييم.</td></tr>
+      <tr><td class="label">الإضافات الاختيارية</td><td class="desc">وحدات إضافية: تكامل بوابات دفع، تطبيق موبايل، تقارير متقدمة.</td></tr>
+      <tr><td class="label">الدعم والصيانة</td><td class="desc">اشتراك دعم شهري بعد الإطلاق يشمل التحديثات والمراقبة وإصلاح الأخطاء.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>ما يشمله السعر افتراضيًا</h2>
+  <ul class="gold">
+    <li>كامل التطوير والتصميم وفق المواصفات المتفَّق عليها في هذا البروبوزال.</li>
+    <li>بيئة Staging لاختبار العميل قبل النشر الفعلي.</li>
+    <li>اختبار شامل (Cross-browser / Cross-device).</li>
+    <li>تسليم الكود المصدري وتوثيق فني للنشر والصيانة.</li>
+    <li>ضمان إصلاح الأخطاء (Bug Fixes) لمدة محدَّدة بعد الإطلاق.</li>
+  </ul>
+
+  <div class="panel">
+    <p><strong>ملاحظة:</strong> الأسعار التفصيلية وشروط الدفع تُسلَّم في عرض سعر منفصل بعد مراجعة تفاصيل الاحتياج التقنية النهائية مع العميل، ويمكن توقيع اتفاقية عدم إفصاح (NDA) عند الحاجة.</p>
+  </div>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">08</div>
+  </div>
+</section>
+
+<!-- ==================== PAGE 9 — NEXT STEPS + CONTACT ==================== -->
+<section class="page">
+  <div class="header-bar"></div>
+  <div class="page-head">
+    <div class="left">NEXT STEPS &amp; CONTACT</div>
+    <div class="right">الخطوات التالية والتواصل</div>
+  </div>
+
+  <span class="kicker">Next Steps</span>
+  <h1 class="section-title"><span class="num">08</span>الخطوات التالية</h1>
+
+  <p>للانتقال من مرحلة العرض إلى مرحلة التنفيذ الفعلي، نحتاج إلى استكمال الخطوات الإجرائية التالية بالترتيب:</p>
+
+  <ol class="steps">
+    <li>موافقة العميل على المواصفات الواردة في هذا البروبوزال.</li>
+    <li>تسلّم أصول الهوية البصرية: اللوجو، الدومين، ودليل الهوية الكامل.</li>
+    <li>توقيع اتفاقية العمل وعرض السعر التفصيلي.</li>
+    <li>تسليم Mockup مبدئي خلال يوم عمل من تسلّم الأصول.</li>
+    <li>اجتماع انطلاق (Kick-off) لبدء التطوير الفعلي للمرحلة الأولى.</li>
+  </ol>
+
+  <h2>للتواصل المباشر</h2>
+  <div class="contact-card">
+    <h3>خالد أحمد</h3>
+    <div class="role" style="background:transparent;border:none;margin:0 0 14px 0;color:var(--accent-2);font-size:10.5pt;">
+      مهندس تطوير ويب · مؤسس Barmagly
+    </div>
+    <div class="contact-grid">
+      <div class="item">
+        <div class="ico">@</div>
+        <span>khaledahmedhaggagy@gmail.com</span>
+      </div>
+      <div class="item">
+        <div class="ico">☎</div>
+        <span>+20 120 459 3124</span>
+      </div>
+      <div class="item">
+        <div class="ico">⌂</div>
+        <span>khaledahmed.net</span>
+      </div>
+      <div class="item">
+        <div class="ico">W</div>
+        <span>WhatsApp · +20 120 459 3124</span>
+      </div>
+      <div class="item">
+        <div class="ico">G</div>
+        <span>github.com/khaled312001</span>
+      </div>
+      <div class="item">
+        <div class="ico">in</div>
+        <span>linkedin.com/in/khaled-ahmed-82368819b</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="closing">
+    شكرًا لاهتمامكم وثقتكم. نتطلّع لشراكة طويلة الأمد تنطلق من هذا المشروع لتدعم نموّ الأكاديمية وحضورها المؤسسي.
+  </div>
+
+  <div class="page-foot">
+    <div class="brand">NEW ACADEMY · 2026</div>
+    <div class="pn">09</div>
+  </div>
+</section>
+
+</body>
+</html>

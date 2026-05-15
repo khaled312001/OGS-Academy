@@ -1,0 +1,53 @@
+# ===== Laravel project nested =====
+ogs-academy/.env
+ogs-academy/.env.backup
+ogs-academy/.env.production
+ogs-academy/node_modules/
+ogs-academy/vendor/
+ogs-academy/public/build/
+ogs-academy/public/hot
+ogs-academy/public/storage
+ogs-academy/storage/*.key
+ogs-academy/storage/framework/cache/data/
+ogs-academy/storage/framework/sessions/
+ogs-academy/storage/framework/testing/
+ogs-academy/storage/framework/views/
+ogs-academy/storage/logs/*.log
+ogs-academy/storage/pail/
+ogs-academy/storage/debugbar/
+ogs-academy/bootstrap/cache/*.php
+ogs-academy/.phpunit.cache/
+ogs-academy/.phpunit.result.cache
+ogs-academy/.phpactor.json
+ogs-academy/auth.json
+
+# ===== IDE / Editor =====
+.idea/
+.vscode/
+.fleet/
+.nova/
+.zed/
+*.code-workspace
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Misc =====
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+.cache/
+extracted_zip/
+
+# ===== Build artifacts =====
+dist/
+build/
+out/
+
+# Homestead
+Homestead.json
+Homestead.yaml
