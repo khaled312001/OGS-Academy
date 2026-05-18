@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Inquiry;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -26,7 +27,7 @@ class InquiryReceived extends Mailable
 
         return new Envelope(
             subject: $subject,
-            replyTo: [$this->inquiry->email => $safeName ?: $this->inquiry->email],
+            replyTo: [new Address($this->inquiry->email, $safeName ?: '')],
         );
     }
 

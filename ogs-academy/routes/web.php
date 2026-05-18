@@ -52,6 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('notifications/count', [Admin\DashboardController::class, 'notificationsCount'])->name('notifications.count');
 
     Route::resource('programs',    Admin\ProgramController::class)->except(['show']);
     Route::resource('categories',  Admin\ProgramCategoryController::class)->except(['show']);

@@ -171,7 +171,7 @@
                     <div x-show="notifOpen" @click.outside="notifOpen=false" x-cloak x-transition class="absolute left-0 top-full mt-2 w-80 bg-white border border-brand-gray rounded-2xl shadow-soft z-30 overflow-hidden">
                         <div class="p-4 border-b border-brand-gray flex items-center justify-between">
                             <p class="font-extrabold">الإشعارات</p>
-                            <span class="text-xs text-brand-ink/60">{{ $notifTotal }} جديد</span>
+                            <span class="text-xs text-brand-ink/60"><span data-notif-count>{{ $notifTotal }}</span> جديد</span>
                         </div>
                         <div class="divide-y divide-brand-gray max-h-80 overflow-y-auto">
                             @if($newInquiriesCount > 0)
@@ -267,6 +267,135 @@
         <p>الإصدار 1.0.0</p>
     </footer>
 </div>
+
+{{-- ===== Toast container for new notifications ===== --}}
+<div id="admin-notif-toast"
+     class="fixed bottom-6 left-6 z-[60] hidden flex-col gap-2 max-w-sm"
+     style="display:none;flex-direction:column;"></div>
+
+{{-- ===== Notification polling + sound (Web Audio API; no asset needed) ===== --}}
+<script>
+(() => {
+    const POLL_URL = "{{ route('admin.notifications.count') }}";
+    const POLL_INTERVAL_MS = 25_000;  // 25s
+    const STORAGE_KEY = 'ogs_notif_baseline_v1';
+
+    // === Sound: a pleasant 2-tone chime via Web Audio API ===
+    let audioCtx = null;
+    function ensureAudio() {
+        if (audioCtx) return audioCtx;
+        const C = window.AudioContext || window.webkitAudioContext;
+        if (!C) return null;
+        audioCtx = new C();
+        return audioCtx;
+    }
+    function playChime() {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        const tones = [
+            { f: 880, t: 0,    d: 0.18, g: 0.18 },
+            { f: 1175, t: 0.18, d: 0.22, g: 0.16 },
+        ];
+        tones.forEach(({ f, t, d, g }) => {
+            const o = ctx.createOscillator();
+            const gn = ctx.createGain();
+            o.type = 'sine'; o.frequency.value = f;
+            gn.gain.setValueAtTime(0, ctx.currentTime + t);
+            gn.gain.linearRampToValueAtTime(g, ctx.currentTime + t + 0.02);
+            gn.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t + d);
+            o.connect(gn).connect(ctx.destination);
+            o.start(ctx.currentTime + t);
+            o.stop(ctx.currentTime + t + d + 0.02);
+        });
+    }
+
+    // Unlock audio on first user interaction (browsers require gesture)
+    let audioUnlocked = false;
+    const unlock = () => {
+        if (audioUnlocked) return;
+        const ctx = ensureAudio(); if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume().then(() => { audioUnlocked = true; });
+        else audioUnlocked = true;
+    };
+    ['click','keydown','touchstart'].forEach(ev => document.addEventListener(ev, unlock, { once: true, passive: true }));
+
+    // === Toast ===
+    function showToast({ title, body, href }) {
+        const c = document.getElementById('admin-notif-toast');
+        if (!c) return;
+        c.style.display = 'flex';
+        const el = document.createElement('a');
+        el.href = href || '#';
+        el.className = 'block bg-white border-2 border-brand-red rounded-2xl shadow-soft px-5 py-4 hover:scale-[1.02] transition no-underline text-brand-ink';
+        el.style.cssText = 'box-shadow:0 12px 32px rgba(160,24,24,0.25);transform:translateX(-20px);opacity:0;transition:all .3s;';
+        el.innerHTML = `
+            <div class="flex items-start gap-3">
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#A01818 0%,#5C0808 100%);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-extrabold text-sm text-brand-red">${title}</p>
+                    <p class="text-xs text-brand-ink/70 mt-1 leading-relaxed">${body}</p>
+                </div>
+                <button onclick="event.preventDefault();this.closest('a').remove();" class="text-brand-ink/40 hover:text-brand-ink shrink-0 text-lg leading-none">×</button>
+            </div>
+        `;
+        c.prepend(el);
+        // Animate in
+        setTimeout(() => { el.style.transform='translateX(0)'; el.style.opacity='1'; }, 10);
+        // Auto-dismiss after 12s
+        setTimeout(() => { el.style.opacity='0'; el.style.transform='translateX(-20px)'; setTimeout(()=>el.remove(), 300); }, 12000);
+    }
+
+    // === Polling ===
+    async function poll() {
+        try {
+            const r = await fetch(POLL_URL, { credentials: 'same-origin', headers: { 'Accept': 'application/json' } });
+            if (!r.ok) return;
+            const data = await r.json();
+
+            // Update header badge counter live
+            document.querySelectorAll('[data-notif-count]').forEach(el => { el.textContent = data.total; });
+
+            // Read previous baseline
+            let prev;
+            try { prev = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null'); } catch (e) { prev = null; }
+
+            if (prev) {
+                const newInq = data.latest_inquiry > prev.latest_inquiry;
+                const newMsg = data.latest_message > prev.latest_message;
+                if (newInq || newMsg) {
+                    playChime();
+                    if (newInq) showToast({
+                        title: '🔔 طلب جديد',
+                        body:  'وصلك طلب برنامج جديد من نموذج الموقع. اضغط لعرض التفاصيل.',
+                        href:  '{{ route("admin.inquiries.index") }}',
+                    });
+                    if (newMsg) showToast({
+                        title: '📧 رسالة جديدة',
+                        body:  'وصلتك رسالة جديدة من صفحة التواصل.',
+                        href:  '{{ route("admin.messages.index") }}',
+                    });
+                }
+            }
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+                latest_inquiry: data.latest_inquiry,
+                latest_message: data.latest_message,
+            }));
+        } catch (e) {
+            // silent
+        }
+    }
+
+    // Start polling after a small delay so initial baseline is set
+    poll();
+    setInterval(poll, POLL_INTERVAL_MS);
+
+    // === Manual test: a "test sound" button anyone can wire up ===
+    window.ogsTestNotificationSound = () => playChime();
+})();
+</script>
 
 @stack('scripts')
 </body>

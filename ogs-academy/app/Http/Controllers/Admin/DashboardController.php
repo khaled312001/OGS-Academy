@@ -8,9 +8,26 @@ use App\Models\Inquiry;
 use App\Models\Program;
 use App\Models\ProgramCategory;
 use App\Models\Partner;
+use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
+    /**
+     * Polled by admin layout JS to detect new inquiries/messages
+     * and play a notification sound.
+     */
+    public function notificationsCount(): JsonResponse
+    {
+        return response()->json([
+            'new_inquiries'    => Inquiry::new()->count(),
+            'unread_messages'  => ContactMessage::unread()->count(),
+            'total'            => Inquiry::new()->count() + ContactMessage::unread()->count(),
+            'latest_inquiry'   => Inquiry::latest()->first()?->id ?? 0,
+            'latest_message'   => ContactMessage::latest()->first()?->id ?? 0,
+            'timestamp'        => now()->toIso8601String(),
+        ]);
+    }
+
     public function index()
     {
         $stats = [

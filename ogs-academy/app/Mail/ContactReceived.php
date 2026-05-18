@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -21,7 +22,7 @@ class ContactReceived extends Mailable
 
         return new Envelope(
             subject: '[رسالة جديدة] ' . ($this->message->subject ?: $this->message->full_name),
-            replyTo: [$this->message->email => $safeName ?: $this->message->email],
+            replyTo: [new Address($this->message->email, $safeName ?: '')],
         );
     }
 
