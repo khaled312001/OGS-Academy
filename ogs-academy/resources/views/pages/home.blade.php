@@ -34,7 +34,7 @@
             </div>
 
             {{-- Title --}}
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.15] mb-4 sm:mb-6 text-balance"
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.55] md:leading-[1.15] mb-4 sm:mb-6 text-balance"
                 data-aos="fade-up" data-aos-delay="100">
                 {{ $settings['hero_title_ar'] ?? 'نحوّل القوى العاملة في القطاع الصناعي إلى كفاءات قادرة على القيادة' }}
             </h1>
