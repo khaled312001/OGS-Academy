@@ -21,9 +21,12 @@ class InquiryReceived extends Mailable
         $subject = '[طلب برنامج] ' . $label
                  . ($this->inquiry->program ? ' — ' . $this->inquiry->program->title_ar : '');
 
+        // Sanitize display name (strip chars that break RFC 2822)
+        $safeName = trim(preg_replace('/[()<>@,;:\\\\".\[\]]/u', ' ', $this->inquiry->full_name));
+
         return new Envelope(
             subject: $subject,
-            replyTo: [$this->inquiry->email => $this->inquiry->full_name],
+            replyTo: [$this->inquiry->email => $safeName ?: $this->inquiry->email],
         );
     }
 
