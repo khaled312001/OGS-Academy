@@ -8,10 +8,11 @@
     @php $heroImg = ($settings['hero_image'] ?? null) ? asset('storage/'.$settings['hero_image']) : asset('images/brand/hero-industrial.jpg'); @endphp
     <div class="absolute inset-0 bg-cover bg-center scale-110" data-hero-bg style="background-image:url('{{ $heroImg }}')"></div>
 
-    {{-- Gradient overlays (semi-transparent, image shows through) --}}
-    <div class="absolute inset-0 bg-gradient-to-l from-brand-black/75 via-brand-red-900/55 to-brand-black/60"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent"></div>
-    <div class="absolute inset-0" style="background: radial-gradient(ellipse at 70% 40%, rgba(227,6,19,0.18) 0%, transparent 60%);"></div>
+    {{-- Gradient overlays (stronger on mobile to hide image watermarks) --}}
+    <div class="absolute inset-0 bg-gradient-to-l from-brand-black/90 via-brand-red-900/85 to-brand-black/85 lg:from-brand-black/75 lg:via-brand-red-900/55 lg:to-brand-black/60"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/40 to-brand-black/30 lg:from-brand-black/80 lg:via-brand-black/20 lg:to-transparent"></div>
+    <div class="absolute inset-0 bg-brand-black/40 lg:bg-transparent"></div>
+    <div class="hidden lg:block absolute inset-0" style="background: radial-gradient(ellipse at 70% 40%, rgba(227,6,19,0.18) 0%, transparent 60%);"></div>
 
     {{-- Decorative flame motifs (desktop only) --}}
     <div class="hidden lg:block absolute left-12 top-1/3 w-1 h-28 bg-flame-gradient rounded-full animate-flame-flicker opacity-70 z-10"></div>

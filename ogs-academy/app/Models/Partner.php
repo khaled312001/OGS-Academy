@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Partner extends Model
 {
@@ -14,6 +15,12 @@ class Partner extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('public_nav_data:v1'));
+        static::deleted(fn () => Cache::forget('public_nav_data:v1'));
+    }
 
     public function getLogoUrlAttribute(): string
     {

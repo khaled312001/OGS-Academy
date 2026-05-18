@@ -16,8 +16,14 @@ class SiteSetting extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget(self::CACHE_KEY));
-        static::deleted(fn () => Cache::forget(self::CACHE_KEY));
+        static::saved(function () {
+            Cache::forget(self::CACHE_KEY);
+            Cache::forget('site_settings:all');
+        });
+        static::deleted(function () {
+            Cache::forget(self::CACHE_KEY);
+            Cache::forget('site_settings:all');
+        });
     }
 
     public static function get(string $key, mixed $default = null): mixed

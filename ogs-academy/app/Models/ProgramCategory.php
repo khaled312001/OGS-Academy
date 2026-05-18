@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ProgramCategory extends Model
@@ -25,6 +26,8 @@ class ProgramCategory extends Model
                     ?: 'cat-' . Str::random(5);
             }
         });
+        static::saved(fn () => Cache::forget('public_nav_data:v1'));
+        static::deleted(fn () => Cache::forget('public_nav_data:v1'));
     }
 
     public function getRouteKeyName(): string
