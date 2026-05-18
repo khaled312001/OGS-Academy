@@ -12,7 +12,7 @@ class AdminUserSeeder extends Seeder
     {
         // Admin credentials sourced from environment for security.
         // Set ADMIN_EMAIL and ADMIN_PASSWORD in your .env file before seeding.
-        $email    = env('ADMIN_EMAIL', 'admin@ogs-academy.com');
+        $email    = env('ADMIN_EMAIL', 'info@ogs-academy.com');
         $password = env('ADMIN_PASSWORD');
 
         if (empty($password)) {

@@ -1,0 +1,1 @@
+cd /home/u352429374/domains/ogs-academy.com/public_html && php artisan tinker --execute="\App\Models\User::where('email','admin@ogs-academy.com')->update(['email'=>'info@ogs-academy.com']); echo \App\Models\User::pluck('email')->implode(', ');"
